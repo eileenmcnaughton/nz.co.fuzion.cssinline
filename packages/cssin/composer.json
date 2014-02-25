@@ -1,0 +1,8 @@
+{
+	"name": "djfm/cssin",
+	"autoload": {
+		"psr-4": {
+			"FM\\": "src/"
+		}
+	}
+}
