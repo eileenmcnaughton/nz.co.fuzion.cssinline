@@ -1,0 +1,69 @@
+{
+    "packages": [
+        {
+            "name": "cerdic/css-tidy",
+            "version": "v2.0.1",
+            "version_normalized": "2.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cerdic/CSSTidy.git",
+                "reference": "9efced88f9fc31ecbd52c798b6c01283966c0e48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cerdic/CSSTidy/zipball/9efced88f9fc31ecbd52c798b6c01283966c0e48",
+                "reference": "9efced88f9fc31ecbd52c798b6c01283966c0e48",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8"
+            },
+            "require-dev": {
+                "pear/text_diff": "^1.2",
+                "simpletest/simpletest": "dev-master"
+            },
+            "time": "2022-02-21T15:33:09+00:00",
+            "bin": [
+                "bin/pcsstidy"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "class.csstidy_optimise.php",
+                    "class.csstidy_print.php",
+                    "class.csstidy.php"
+                ]
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "testing"
+                ]
+            },
+            "archive": {
+                "exclude": [
+                    "/.gitignore",
+                    "/.travis.yml",
+                    "/testing"
+                ]
+            },
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Cédric MORIN",
+                    "email": "changeme@mailinator.com"
+                }
+            ],
+            "description": "CSSTidy is a CSS minifier",
+            "support": {
+                "source": "https://github.com/Cerdic/CSSTidy/tree/v2.0.1",
+                "issues": "https://github.com/Cerdic/CSSTidy/issues"
+            },
+            "install-path": "../cerdic/css-tidy"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

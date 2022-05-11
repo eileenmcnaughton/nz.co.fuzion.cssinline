@@ -107,7 +107,9 @@ function cssinline_civicrm_caseTypes(&$caseTypes) {
  * Note: This hook only runs in CiviCRM 4.4+.
  */
 function cssinline_civicrm_alterMailParams(&$mailParams, $context) {
-  $mailParams['html'] = _cssinline_inlinecss($mailParams['html']);
+  if (!empty($mailParams['html'])) {
+    $mailParams['html'] = _cssinline_inlinecss($mailParams['html']);
+  }
 }
 
 /**
