@@ -1,8 +1,19 @@
 {
-	"name": "djfm/cssin",
-	"autoload": {
-		"psr-4": {
-			"FM\\": "src/"
-		}
-	}
+  "name": "djfm/cssin",
+  "description": "Project",
+  "autoload": {
+    "psr-4": {
+      "FM\\": "src/"
+    }
+  },
+  "repositories": {
+    "css-tidy": {
+      "name": "cerdic/css-tidy",
+      "url": "https://github.com/Cerdic/CSSTidy.git",
+      "type": "vcs"
+    }
+  },
+  "require": {
+    "cerdic/css-tidy": "v2.0.1"
+  }
 }
