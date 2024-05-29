@@ -23,5 +23,12 @@
   Feedback or discussion on http://forum.civicrm.org/index.php/topic,30771.msg132064.html#msg132064</comments>
   <civix>
     <namespace>CRM/Cssinline</namespace>
+    <format>23.02.1</format>
   </civix>
+  <mixins>
+    <mixin>smarty-v2@1.0.1</mixin>
+  </mixins>
+  <classloader>
+    <psr4 prefix="Civi\" path="Civi"/>
+  </classloader>
 </extension>
