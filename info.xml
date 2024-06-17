@@ -10,7 +10,7 @@
   </maintainer>
   <urls>
     <url desc="Main Extension Page">http://civicrm.org</url>
-    <url desc="Support">http://forum.civicrm.org</url>
+    <url desc="Support">https://github.com/eileenmcnaughton/nz.co.fuzion.cssinline</url>
     <url desc="Licensing">http://civicrm.org/licensing</url>
   </urls>
   <releaseDate>2024-05-30</releaseDate>
@@ -19,8 +19,7 @@
   <compatibility>
     <ver>5.69</ver>
   </compatibility>
-  <comments>To use this you add stylesheet links to the top of your mails
-  Feedback or discussion on http://forum.civicrm.org/index.php/topic,30771.msg132064.html#msg132064</comments>
+  <comments>To use this you add stylesheet links to the top of your mails</comments>
   <civix>
     <namespace>CRM/Cssinline</namespace>
     <format>23.02.1</format>
