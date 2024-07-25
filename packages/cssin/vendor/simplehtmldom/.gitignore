@@ -1,0 +1,18 @@
+# Build files
+simplehtmldom_*.zip
+
+# Unit test data files
+tests/data/*
+!tests/data/.gitkeep
+
+# Visual Studio Code
+.vscode/
+
+# PhpStorm
+.idea/
+
+# MkDocs generated files
+/site/
+
+# Composer
+/vendor/

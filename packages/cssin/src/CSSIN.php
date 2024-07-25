@@ -19,7 +19,7 @@
 
 namespace FM;
 
-require_once dirname(__FILE__).'/../vendor/simple_html_dom/simple_html_dom.php';
+require_once dirname(__FILE__).'/../vendor/simplehtmldom/simple_html_dom.php';
 require_once dirname(__FILE__).'/../vendor/cerdic/css-tidy/class.csstidy.php';
 
 
@@ -293,7 +293,7 @@ class CSSIN
 		// Else use the data provided!
 		else
 		{
-			$html = str_get_html($contents, true, true, DEFAULT_TARGET_CHARSET, false, DEFAULT_BR_TEXT, DEFAULT_SPAN_TEXT);
+			$html = new \simple_html_dom($contents, true, true, DEFAULT_TARGET_CHARSET, false, DEFAULT_BR_TEXT, DEFAULT_SPAN_TEXT);
 		}
 
 		if(!is_object($html))
