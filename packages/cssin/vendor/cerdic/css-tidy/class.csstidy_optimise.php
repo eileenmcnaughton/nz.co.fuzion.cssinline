@@ -47,6 +47,12 @@ class csstidy_optimise {
 	 * @var object
 	 */
 	public $parser;
+	public $css;
+	public $sub_value;
+	public $at;
+	public $selector;
+	public $property;
+	public $value;
 
 	/**
 	 * Constructor
@@ -309,11 +315,12 @@ class csstidy_optimise {
 			return $color;
 
 		/* expressions complexes de type gradient */
-		if (strpos($color, '(') !== false && strncmp($color, 'rgb(' ,4) != 0) {
+		if (strpos($color, '(') !== false
+			&& (strncasecmp($color, 'rgb(' ,4) !== 0 and strncasecmp($color, 'rgba(' ,5) !== 0)) {
 			// on ne touche pas aux couleurs dans les expression ms, c'est trop sensible
 			if (stripos($color, 'progid:') !== false)
 				return $color;
-			preg_match_all(",rgb\([^)]+\),i", $color, $matches, PREG_SET_ORDER);
+			preg_match_all(",rgba?\([^)]+\),i", $color, $matches, PREG_SET_ORDER);
 			if (count($matches)) {
 				foreach ($matches as $m) {
 					$color = str_replace($m[0], $this->cut_color($m[0]), $color);
@@ -329,23 +336,48 @@ class csstidy_optimise {
 		}
 
 		// rgb(0,0,0) -> #000000 (or #000 in this case later)
-		if (strncasecmp($color, 'rgb(', 4)==0) {
-			$color_tmp = substr($color, 4, strlen($color) - 5);
-			$color_tmp = explode(',', $color_tmp);
-			for ($i = 0; $i < count($color_tmp); $i++) {
-				$color_tmp[$i] = trim($color_tmp[$i]);
-				if (substr($color_tmp[$i], -1) === '%') {
-					$color_tmp[$i] = round((255 * $color_tmp[$i]) / 100);
+		if (
+			// be sure to not corrupt a rgb with calc() value
+			(strncasecmp($color, 'rgb(', 4)==0 and strpos($color, '(', 4) === false)
+			or (strncasecmp($color, 'rgba(', 5)==0 and strpos($color, '(', 5) === false)
+		){
+			$color_tmp = explode('(', $color, 2);
+			$color_tmp = rtrim(end($color_tmp), ')');
+			if (strpos($color_tmp, '/') !== false) {
+				$color_tmp = explode('/', $color_tmp, 2);
+				$color_parts = explode(' ', trim(reset($color_tmp)), 3);
+				while (count($color_parts) < 3) {
+					$color_parts[] = 0;
 				}
-				if ($color_tmp[$i] > 255)
-					$color_tmp[$i] = 255;
+				$color_parts[] = end($color_tmp);
+			}
+			else {
+				$color_parts = explode(',', $color_tmp, 4);
+			}
+			for ($i = 0; $i < count($color_parts); $i++) {
+				$color_parts[$i] = trim($color_parts[$i]);
+				if (substr($color_parts[$i], -1) === '%') {
+					$color_parts[$i] = round((255 * intval($color_parts[$i])) / 100);
+				} elseif ($i>2) {
+					// 4th argument is alpga layer between 0 and 1 (if not %)
+					$color_parts[$i] = round((255 * floatval($color_parts[$i])));
+				}
+				$color_parts[$i] = intval($color_parts[$i]);
+				if ($color_parts[$i] > 255){
+					$color_parts[$i] = 255;
+				}
 			}
 			$color = '#';
-			for ($i = 0; $i < 3; $i++) {
-				if ($color_tmp[$i] < 16) {
-					$color .= '0' . dechex($color_tmp[$i]);
+			// 3 or 4 parts depending on alpha layer
+			$nb = min(max(count($color_parts), 3),4);
+			for ($i = 0; $i < $nb; $i++) {
+				if (!isset($color_parts[$i])) {
+					$color_parts[$i] = 0;
+				}
+				if ($color_parts[$i] < 16) {
+					$color .= '0' . dechex($color_parts[$i]);
 				} else {
-					$color .= dechex($color_tmp[$i]);
+					$color .= dechex($color_parts[$i]);
 				}
 			}
 		}
@@ -360,6 +392,13 @@ class csstidy_optimise {
 			$color_temp = strtolower($color);
 			if ($color_temp[0] === '#' && $color_temp[1] == $color_temp[2] && $color_temp[3] == $color_temp[4] && $color_temp[5] == $color_temp[6]) {
 				$color = '#' . $color[1] . $color[3] . $color[5];
+			}
+		}
+		// #aabbccdd -> #abcd
+		elseif (strlen($color) == 9) {
+			$color_temp = strtolower($color);
+			if ($color_temp[0] === '#' && $color_temp[1] == $color_temp[2] && $color_temp[3] == $color_temp[4] && $color_temp[5] == $color_temp[6] && $color_temp[7] == $color_temp[8]) {
+				$color = '#' . $color[1] . $color[3] . $color[5] . $color[7];
 			}
 		}
 
@@ -420,9 +459,9 @@ class csstidy_optimise {
 				if ($number[1] == '' && in_array($this->property, $unit_values, true)) {
 					$number[1] = 'px';
 				}
-                        } elseif ($number[1] != 's' && $number[1] != 'ms') {
-                                $number[1] = '';
-                        }
+			} elseif ($number[1] != 's' && $number[1] != 'ms') {
+				$number[1] = '';
+			}
 
 			$temp[$l] = $number[0] . $number[1];
 		}

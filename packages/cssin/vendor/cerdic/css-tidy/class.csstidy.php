@@ -51,14 +51,14 @@ define('DEFAULT_AT',      41);
  *
  * @version 1.1.0
  */
-require('class.csstidy_print.php');
+require(__DIR__ . DIRECTORY_SEPARATOR . 'class.csstidy_print.php');
 
 /**
  * Contains a class for optimising CSS code
  *
  * @version 1.0
  */
-require('class.csstidy_optimise.php');
+require(__DIR__ . DIRECTORY_SEPARATOR . 'class.csstidy_optimise.php');
 
 /**
  * CSS Parser class
@@ -70,7 +70,7 @@ require('class.csstidy_optimise.php');
  * An online version should be available here: http://cdburnerxp.se/cssparse/css_optimiser.php
  * @package csstidy
  * @author Florian Schmitz (floele at gmail dot com) 2005-2006
- * @version 2.0.1
+ * @version 2.2.1
  */
 class csstidy {
 
@@ -123,7 +123,7 @@ class csstidy {
 	 * @var string
 	 * @access private
 	 */
-	public $version = '1.7.3';
+	public $version = '2.0.3';
 	/**
 	 * Stores the settings
 	 * @var array
@@ -257,6 +257,8 @@ class csstidy {
 	 */
 	public $data = array();
 
+	public $template;
+
 	/**
 	 * Loads standard template and sets default settings
 	 * @access private
@@ -264,7 +266,7 @@ class csstidy {
 	 */
 	public function __construct() {
 		$data = array();
-		include('data.inc.php');
+		include(__DIR__ . DIRECTORY_SEPARATOR . 'data.inc.php');
 		$this->data = $data;
 
 		$this->settings['remove_bslash'] = true;

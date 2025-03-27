@@ -14,6 +14,6 @@
     }
   },
   "require": {
-    "cerdic/css-tidy": "v2.0.1"
+    "cerdic/css-tidy": "v2.2.1"
   }
 }
